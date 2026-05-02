@@ -1,16 +1,46 @@
-# React + Vite
+# LineUP Boston 🍺
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Real-time wait times for Boston's bars, restaurants, and dessert spots — crowdsourced by the people actually standing in line.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What is this?
 
-## React Compiler
+LineUP Boston is a live wait time tracker for Boston. Users report how long the line is, and everyone else can see it in real time so you never show up to a 45 minute wait you didn't know about.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- 🔴 **Live wait times** — crowdsourced reports update in real time
+- ⏱ **Auto-expiring data** — reports expire after 30 minutes so you always see fresh info
+- 🔍 **Search** — find any bar or neighborhood instantly
+- 📍 **Neighborhood filters** — South Boston, Seaport, Cambridge, South End, Downtown
+- 📊 **18 venues** at launch across Boston
+- 📱 **Works on phone and laptop**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Venues at Launch
+
+**South Boston**
+Lincoln Tavern · Layla's American Tavern · Capo · Loco Taqueria · Clock Tavern · The Broadway · The Playwright · Hunter's Kitchen · Park City Southie · Tom's English Cottage
+
+**Seaport**
+Lucky's Lounge · Borrachito · Cisco Brewers
+
+**Cambridge**
+BerryLine · Felipe's Taqueria
+
+**South End**
+The Beehive · Kartal
+
+**Downtown**
+The Dubliner
+
+## Tech Stack
+
+- **Frontend** — React + Vite
+- **Backend** — Supabase (Postgres + Realtime)
+- **Hosting** — Vercel
+- **Fonts** — DM Sans (Google Fonts)
+
+---
+
+Built in Boston 🦞
