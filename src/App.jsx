@@ -255,12 +255,12 @@ function VenueCard({ venue, onReport, index }) {
       
         {/* Left */}
         <div style={{ flex: 1, paddingRight: 12, textAlign: "left" }}>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
+          <div style={{ fontSize: 10, color: "#b5b0a8", fontWeight: 600, letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 4 }}>
             {venue.neighborhood} · {venue.type}
-          </div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
-            {venue.name}
-          </div>
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
+              {venue.name}
+</div>
           <div style={{ fontSize: 12, color: "#c4bfb8", display: "flex", alignItems: "center", gap: 5 }}>
             {venue.recent_reports > 0
               ? <><span>{venue.recent_reports} report{venue.recent_reports !== 1 ? "s" : ""}</span><span>·</span><span>{timeAgo(venue.last_reported_at)}</span></>
