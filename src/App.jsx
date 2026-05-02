@@ -251,8 +251,8 @@ function VenueCard({ venue, onReport, index }) {
     }}
       onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    ><div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+      
         {/* Left */}
         <div style={{ flex: 1, paddingRight: 12 }}>
           <div style={{ fontSize: 11, color: "#b5b0a8", fontWeight: 600, letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 4 }}>
