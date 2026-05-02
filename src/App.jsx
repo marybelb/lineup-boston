@@ -254,8 +254,8 @@ function VenueCard({ venue, onReport, index }) {
     ><div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
       
         {/* Left */}
-        <div style={{ flex: 1, paddingRight: 12 }}>
-          <div style={{ fontSize: 11, color: "#b5b0a8", fontWeight: 600, letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 4 }}>
+        <div style={{ flex: 1, paddingRight: 12, textAlign: "left" }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
             {venue.neighborhood} · {venue.type}
           </div>
           <div style={{ fontSize: 16, fontWeight: 700, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
