@@ -399,18 +399,13 @@ export default function App() {
         input:focus { outline: none; }
         @media (prefers-color-scheme: dark) {
         body, html { background: #1a1814 !important; }
-        /* Header */
         .dark-header { background: #1a1814 !important; border-bottom-color: #2e2b26 !important; }
-        /* Cards */
         .dark-card { background: #232018 !important; border-color: #2e2b26 !important; }
-        /* Search input */
         .dark-input { background: #232018 !important; border-color: #2e2b26 !important; color: #f0ede9 !important; }
-        /* Pills */
         .dark-pill-inactive { background: #232018 !important; border-color: #2e2b26 !important; color: #8a8680 !important; }
-        /* Text */
         .dark-name { color: #f0ede9 !important; }
-        }
         .dark-logo { color: #f0ede9 !important; }
+      }
       `}</style>
 
       <div style={{ minHeight: "100vh", background: "#faf9f7", fontFamily: "'DM Sans', sans-serif" }}>
@@ -427,7 +422,7 @@ export default function App() {
               <div style={{ display: "flex", alignItems: "baseline" }}>
                 <span className="dark-logo" style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>Line</span>
                 <span style={{ fontSize: 30, fontWeight: 800, color: "#e63939", letterSpacing: -1 }}>UP</span>
-                <span style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>&nbsp;Boston</span>
+                <span className="dark-logo" style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>&nbsp;Boston</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 {loading
