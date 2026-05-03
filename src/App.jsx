@@ -410,6 +410,7 @@ export default function App() {
         /* Text */
         .dark-name { color: #f0ede9 !important; }
         }
+        .dark-logo { color: #f0ede9 !important; }
       `}</style>
 
       <div style={{ minHeight: "100vh", background: "#faf9f7", fontFamily: "'DM Sans', sans-serif" }}>
@@ -424,7 +425,7 @@ export default function App() {
             {/* Logo row */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
               <div style={{ display: "flex", alignItems: "baseline" }}>
-                <span style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>Line</span>
+                <span className="dark-logo" style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>Line</span>
                 <span style={{ fontSize: 30, fontWeight: 800, color: "#e63939", letterSpacing: -1 }}>UP</span>
                 <span style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>&nbsp;Boston</span>
               </div>
