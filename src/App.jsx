@@ -405,6 +405,7 @@ export default function App() {
         .dark-pill-inactive { background: #232018 !important; border-color: #2e2b26 !important; color: #8a8680 !important; }
         .dark-name { color: #f0ede9 !important; }
         .dark-logo { color: #f0ede9 !important; }
+        .dark-pill-active { background: #f0ede9 !important; border-color: #f0ede9 !important; color: #1a1814 !important; }
       }
       `}</style>
 
@@ -466,7 +467,9 @@ export default function App() {
             {/* Neighborhood pills */}
             <div style={{ display: "flex", gap: 7, overflowX: "auto", paddingBottom: 10 }}>
               {NEIGHBORHOODS.map(n => (
-                <button key={n} onClick={() => setHood(n)} style={{
+                <button key={n} onClick={() => setHood(n)}
+                className={hood === n ? "dark-pill-active" : "dark-pill"}
+                 style={{
                   whiteSpace: "nowrap", padding: "7px 15px", borderRadius: 999,
                   border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
                   fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
@@ -480,7 +483,9 @@ export default function App() {
             {/* Category pills */}
             <div style={{ display: "flex", gap: 7, paddingBottom: 14 }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCat(c)} style={{
+                <button key={c} onClick={() => setCat(c)} 
+                className={cat === c ? "dark-pill-active" : "dark-pill"}
+                 style={{
                   whiteSpace: "nowrap", padding: "6px 15px", borderRadius: 999,
                   border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
                   fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
