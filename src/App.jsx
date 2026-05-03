@@ -243,7 +243,7 @@ function ReportModal({ venue, onClose, onSubmit, submitting }) {
 function VenueCard({ venue, onReport, index }) {
   const w = venue.current_wait;
   return (
-    <div style={{
+    <div className="dark-card" style={{
       background: "#fff", borderRadius: 18, padding: "16px 18px",
       marginBottom: 10, border: "1.5px solid #ebe8e3",
       animation: `fadeUp 0.25s ease ${index * 0.035}s both`,
@@ -258,7 +258,7 @@ function VenueCard({ venue, onReport, index }) {
           <div style={{ fontSize: 10, color: "#b5b0a8", fontWeight: 600, letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 4 }}>
             {venue.neighborhood} · {venue.type}
             </div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
+            <div className="dark-name" style={{ fontSize: 18, fontWeight: 800, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
               {venue.name}
 </div>
           <div style={{ fontSize: 12, color: "#c4bfb8", display: "flex", alignItems: "center", gap: 5 }}>
@@ -397,15 +397,28 @@ export default function App() {
         @keyframes spin    { to { transform: rotate(360deg); } }
         @keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.4} }
         input:focus { outline: none; }
+        @media (prefers-color-scheme: dark) {
+        body, html { background: #1a1814 !important; }
+        /* Header */
+        .dark-header { background: #1a1814 !important; border-bottom-color: #2e2b26 !important; }
+        /* Cards */
+        .dark-card { background: #232018 !important; border-color: #2e2b26 !important; }
+        /* Search input */
+        .dark-input { background: #232018 !important; border-color: #2e2b26 !important; color: #f0ede9 !important; }
+        /* Pills */
+        .dark-pill-inactive { background: #232018 !important; border-color: #2e2b26 !important; color: #8a8680 !important; }
+        /* Text */
+        .dark-name { color: #f0ede9 !important; }
+        }
       `}</style>
 
       <div style={{ minHeight: "100vh", background: "#faf9f7", fontFamily: "'DM Sans', sans-serif" }}>
 
         {/* ── Sticky Header ── */}
-        <div style={{
+        <div className="dark-header" style={{
           background: "#faf9f7", borderBottom: "1.5px solid #ebe8e3",
           padding: "20px 22px 0", position: "sticky", top: 0, zIndex: 50,
-        }}>
+          }}>
           <div style={{ maxWidth: 680, margin: "0 auto" }}>
 
             {/* Logo row */}
@@ -430,6 +443,7 @@ export default function App() {
             <div style={{ position: "relative", marginBottom: 12 }}>
               <span style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)", fontSize: 15, pointerEvents: "none" }}>🔍</span>
               <input
+              className="dark-input"
                 value={q}
                 onChange={e => setQ(e.target.value)}
                 placeholder="Search a bar or neighborhood..."
