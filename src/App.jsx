@@ -299,8 +299,8 @@ function VenueCard({ venue, onReport, index }) {
     }}
       onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}
-    ><div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         {/* Left */}
         <div style={{ flex: 1, paddingRight: 12, textAlign: "left" }}>
           <div style={{ fontSize: 10, color: "#b5b0a8", fontWeight: 600, letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 4 }}>
@@ -315,57 +315,61 @@ function VenueCard({ venue, onReport, index }) {
               : <span>No recent reports</span>
             }
           </div>
-          {venue.latest_photo && (
-            <>
-              <div onClick={() => setPhotoOpen(true)} style={{ marginTop: 10, borderRadius: 10, overflow: "hidden", cursor: "pointer" }}>
-                <img src={venue.latest_photo} style={{ width: "100%", height: 200, objectFit: "contain", background: "#f0ede9", borderRadius: 10 }} />
-              </div>
+        </div>
 
-              {photoOpen && (
-                <div onClick={() => setPhotoOpen(false)} style={{
-                  position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  zIndex: 9999, cursor: "pointer"
-                }}>
-                  <div style={{ position: "relative", margin: 20, borderRadius: 16, overflow: "hidden", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
-                    <img src={venue.latest_photo} style={{ display: "block", maxWidth: "calc(100vw - 40px)", maxHeight: "80vh", borderRadius: 16, objectFit: "contain" }} />
-                    <button onClick={() => setPhotoOpen(false)} style={{
-                      position: "absolute", top: 10, right: 10,
-                      background: "rgba(0,0,0,0.6)", border: "none", borderRadius: "50%",
-                      width: 32, height: 32, color: "#fff", cursor: "pointer",
-                      fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center"
-                    }}>✕</button>
-                  </div>
-                </div>
-              )}
+        {/* Right */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+          <div style={{
+            background: waitBg(w), color: waitColor(w),
+            padding: "6px 14px", borderRadius: 10,
+            fontSize: 14, fontWeight: 800, minWidth: 86, textAlign: "center"
+          }}>
+            {waitText(w)}
+          </div>
+          <button
+            onClick={() => onReport(venue)}
+            style={{
+              padding: "5px 12px", borderRadius: 8,
+              border: "1.5px solid #ebe8e3", background: "#fff",
+              color: "#8a8680", fontSize: 11, fontWeight: 600,
+              cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+              transition: "all 0.12s"
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = "#faf9f7"; e.currentTarget.style.borderColor = "#dedad4"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.borderColor = "#ebe8e3"; }}
+          >
+            + Report
+          </button>
+        </div>
+      </div>
 
-              {/* Right */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
-                <div style={{
-                  background: waitBg(w), color: waitColor(w),
-                  padding: "6px 14px", borderRadius: 10,
-                  fontSize: 14, fontWeight: 800, minWidth: 86, textAlign: "center"
-                }}>
-                  {waitText(w)}
-                </div>
-                <button
-                  onClick={() => onReport(venue)}
-                  style={{
-                    padding: "5px 12px", borderRadius: 8,
-                    border: "1.5px solid #ebe8e3", background: "#fff",
-                    color: "#8a8680", fontSize: 11, fontWeight: 600,
-                    cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-                    transition: "all 0.12s"
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = "#faf9f7"; e.currentTarget.style.borderColor = "#dedad4"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.borderColor = "#ebe8e3"; }}
-                >
-                  + Report
-                </button>
+      {/* Photo */}
+      {venue.latest_photo && (
+        <>
+          <div onClick={() => setPhotoOpen(true)} style={{ marginTop: 10, borderRadius: 10, overflow: "hidden", cursor: "pointer" }}>
+            <img src={venue.latest_photo} style={{ width: "100%", height: 200, objectFit: "contain", background: "#f0ede9", borderRadius: 10 }} />
+          </div>
+          {photoOpen && (
+            <div onClick={() => setPhotoOpen(false)} style={{
+              position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              zIndex: 9999, cursor: "pointer"
+            }}>
+              <div style={{ position: "relative", margin: 20, borderRadius: 16, overflow: "hidden", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
+                <img src={venue.latest_photo} style={{ display: "block", maxWidth: "calc(100vw - 40px)", maxHeight: "80vh", borderRadius: 16, objectFit: "contain" }} />
+                <button onClick={() => setPhotoOpen(false)} style={{
+                  position: "absolute", top: 10, right: 10,
+                  background: "rgba(0,0,0,0.6)", border: "none", borderRadius: "50%",
+                  width: 32, height: 32, color: "#fff", cursor: "pointer",
+                  fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center"
+                }}>✕</button>
               </div>
             </div>
-        </div>
-        );
+          )}
+        </>
+      )}
+    </div>
+  );
 }
 
         // ── Setup Banner ─────────────────────────────────────────────
