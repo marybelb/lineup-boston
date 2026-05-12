@@ -316,7 +316,9 @@ function VenueCard({ venue, onReport, index }) {
           </div>
           {venue.latest_photo && (
             <div style={{ marginTop: 10, borderRadius: 10, overflow: "hidden" }}>
-              <img src={venue.latest_photo} style={{ width: "100%", height: 200, objectFit: "contain", background: "#f0ede9", borderRadius: 10 }} />
+              <a href={venue.latest_photo} target="_blank" rel="noreferrer">
+                <img src={venue.latest_photo} style={{ width: "100%", height: 200, objectFit: "contain", background: "#f0ede9", borderRadius: 10, cursor: "pointer" }} />
+                </a>
             </div>
           )}
         </div>
