@@ -102,7 +102,7 @@ const supabase = (() => {
       return res.json();
     },
   });
-   const uploadPhoto = async (file) => {
+  const uploadPhoto = async (file) => {
     const ext = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const res = await fetch(
@@ -135,10 +135,10 @@ const supabase = (() => {
             ref: "1"
           }));
           ws.onmessage = (msg) => {
-            try { const p = JSON.parse(msg.data); if (p.event === "postgres_changes") cb(p); } catch {}
+            try { const p = JSON.parse(msg.data); if (p.event === "postgres_changes") cb(p); } catch { }
           };
           return { unsubscribe: () => ws.close() };
-        } catch { return { unsubscribe: () => {} }; }
+        } catch { return { unsubscribe: () => { } }; }
       }
     })
   });
@@ -169,7 +169,7 @@ const FALLBACK = [
 
 // Helpers
 const waitColor = (w) => w == null ? "#c4bfb8" : w === 0 ? "#16a34a" : w <= 15 ? "#ca8a04" : w <= 30 ? "#ea580c" : "#dc2626";
-const waitBg   = (w) => w == null ? "#f0ede9" : w === 0 ? "#dcfce7" : w <= 15 ? "#fef9c3" : w <= 30 ? "#ffedd5" : "#fee2e2";
+const waitBg = (w) => w == null ? "#f0ede9" : w === 0 ? "#dcfce7" : w <= 15 ? "#fef9c3" : w <= 30 ? "#ffedd5" : "#fee2e2";
 const waitText = (w) => w == null ? "No data" : w === 0 ? "No wait" : `~${w} min`;
 
 const timeAgo = (ts) => {
@@ -181,32 +181,32 @@ const timeAgo = (ts) => {
 };
 
 const NEIGHBORHOODS = ["All", "South Boston", "South End", "Cambridge", "Seaport", "Downtown"];
-const CATEGORIES    = ["All", "Bars", "Dessert"];
+const CATEGORIES = ["All", "Bars", "Dessert"];
 
 // ── Report Modal ─────────────────────────────────────────────
 function ReportModal({ venue, onClose, onSubmit, submitting }) {
   const [selected, setSelected] = useState(null);
   const [photo, setPhoto] = useState(null);
-const [photoPreview, setPhotoPreview] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
 
-const handlePhoto = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  setPhoto(file);
-  setPhotoPreview(URL.createObjectURL(file));
-};
+  const handlePhoto = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPhoto(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  };
   const opts = [
-  { label: "No wait", value: 0 },
-  { label: "~5 min",  value: 5 },
-  { label: "~10 min", value: 10 },
-  { label: "~15 min", value: 15 },
-  { label: "~20 min", value: 20 },
-  { label: "~25 min", value: 25 },
-  { label: "~30 min", value: 30 },
-  { label: "~35 min", value: 35 },
-  { label: "~40 min", value: 40 },
-  { label: "45+ min", value: 45 },
-];
+    { label: "No wait", value: 0 },
+    { label: "~5 min", value: 5 },
+    { label: "~10 min", value: 10 },
+    { label: "~15 min", value: 15 },
+    { label: "~20 min", value: 20 },
+    { label: "~25 min", value: 25 },
+    { label: "~30 min", value: 30 },
+    { label: "~35 min", value: 35 },
+    { label: "~40 min", value: 40 },
+    { label: "45+ min", value: 45 },
+  ];
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 200 }}
@@ -244,7 +244,7 @@ const handlePhoto = (e) => {
             }}>{o.label}</button>
           ))}
         </div>
-         {/* Photo upload */}
+        {/* Photo upload */}
         <div style={{ marginBottom: 14 }}>
           {photoPreview ? (
             <div style={{ position: "relative" }}>
@@ -288,6 +288,7 @@ const handlePhoto = (e) => {
 
 // ── Venue Card ───────────────────────────────────────────────
 function VenueCard({ venue, onReport, index }) {
+  const [photoOpen, setPhotoOpen] = useState(false);
   const w = venue.current_wait;
   return (
     <div className="dark-card" style={{
@@ -299,15 +300,15 @@ function VenueCard({ venue, onReport, index }) {
       onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}
     ><div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-      
+
         {/* Left */}
         <div style={{ flex: 1, paddingRight: 12, textAlign: "left" }}>
           <div style={{ fontSize: 10, color: "#b5b0a8", fontWeight: 600, letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 4 }}>
             {venue.neighborhood} · {venue.type}
-            </div>
-            <div className="dark-name" style={{ fontSize: 18, fontWeight: 800, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
-              {venue.name}
-</div>
+          </div>
+          <div className="dark-name" style={{ fontSize: 18, fontWeight: 800, color: "#1a1a1a", marginBottom: 5, lineHeight: 1.2 }}>
+            {venue.name}
+          </div>
           <div style={{ fontSize: 12, color: "#c4bfb8", display: "flex", alignItems: "center", gap: 5 }}>
             {venue.recent_reports > 0
               ? <><span>{venue.recent_reports} report{venue.recent_reports !== 1 ? "s" : ""}</span><span>·</span><span>{timeAgo(venue.last_reported_at)}</span></>
@@ -315,11 +316,22 @@ function VenueCard({ venue, onReport, index }) {
             }
           </div>
           {venue.latest_photo && (
-            <div style={{ marginTop: 10, borderRadius: 10, overflow: "hidden" }}>
-              <a href={venue.latest_photo} target="_blank" rel="noreferrer">
-                <img src={venue.latest_photo} style={{ width: "100%", height: 200, objectFit: "contain", background: "#f0ede9", borderRadius: 10, cursor: "pointer" }} />
-                </a>
-            </div>
+            <>
+              <div onClick={() => setPhotoOpen(true)} style={{ marginTop: 10, borderRadius: 10, overflow: "hidden", cursor: "pointer" }}>
+                <img src={venue.latest_photo} style={{ width: "100%", height: 200, objectFit: "contain", background: "#f0ede9", borderRadius: 10 }} />
+              </div>
+
+              {photoOpen && (
+                <div onClick={() => setPhotoOpen(false)} style={{
+                  position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  zIndex: 300, padding: 20, cursor: "pointer"
+                }}>
+                  <img src={venue.latest_photo} style={{ maxWidth: "100%", maxHeight: "90vh", borderRadius: 12, objectFit: "contain" }} />
+                  <div style={{ position: "absolute", top: 20, right: 20, color: "#fff", fontSize: 28, fontWeight: 700 }}>✕</div>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -376,14 +388,14 @@ function SetupBanner() {
 
 // ── Main App ─────────────────────────────────────────────────
 export default function App() {
-  const [venues, setVenues]     = useState(FALLBACK);
-  const [loading, setLoading]   = useState(isConfigured);
-  const [hood, setHood]         = useState("All");
-  const [cat, setCat]           = useState("All");
-  const [q, setQ]               = useState("");
+  const [venues, setVenues] = useState(FALLBACK);
+  const [loading, setLoading] = useState(isConfigured);
+  const [hood, setHood] = useState("All");
+  const [cat, setCat] = useState("All");
+  const [q, setQ] = useState("");
   const [reporting, setReporting] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-  const [toast, setToast]       = useState(null);
+  const [toast, setToast] = useState(null);
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
 
@@ -408,26 +420,26 @@ export default function App() {
 
   // Submit report
   const handleSubmit = async (venueId, waitMinutes, photoFile) => {
-  setSubmitting(true);
-  let photoUrl = null;
-  if (photoFile && isConfigured) {
-    photoUrl = await supabase.uploadPhoto(photoFile);
-  }
-  if (isConfigured) {
-    try {
-      await supabase.from("wait_reports").insert({ venue_id: venueId, wait_minutes: waitMinutes, photo_url: photoUrl });
-      await fetchVenues();
-    } catch (e) { console.error(e); }
-  } else {
-    setVenues(prev => prev.map(v => v.id === venueId
-      ? { ...v, current_wait: waitMinutes, recent_reports: (v.recent_reports || 0) + 1, last_reported_at: new Date().toISOString() }
-      : v
-    ));
-  }
-  setSubmitting(false);
-  setReporting(null);
-  showToast("Thanks! Wait time updated 🙌");
-};
+    setSubmitting(true);
+    let photoUrl = null;
+    if (photoFile && isConfigured) {
+      photoUrl = await supabase.uploadPhoto(photoFile);
+    }
+    if (isConfigured) {
+      try {
+        await supabase.from("wait_reports").insert({ venue_id: venueId, wait_minutes: waitMinutes, photo_url: photoUrl });
+        await fetchVenues();
+      } catch (e) { console.error(e); }
+    } else {
+      setVenues(prev => prev.map(v => v.id === venueId
+        ? { ...v, current_wait: waitMinutes, recent_reports: (v.recent_reports || 0) + 1, last_reported_at: new Date().toISOString() }
+        : v
+      ));
+    }
+    setSubmitting(false);
+    setReporting(null);
+    showToast("Thanks! Wait time updated 🙌");
+  };
 
   // Filter + sort
   const filtered = venues
@@ -473,7 +485,7 @@ export default function App() {
         <div className="dark-header" style={{
           background: "#faf9f7", borderBottom: "1.5px solid #ebe8e3",
           padding: "20px 22px 0", position: "sticky", top: 0, zIndex: 50,
-          }}>
+        }}>
           <div style={{ maxWidth: 680, margin: "0 auto" }}>
 
             {/* Logo row */}
@@ -487,9 +499,9 @@ export default function App() {
                 {loading
                   ? <div style={{ width: 13, height: 13, border: "2px solid #dedad4", borderTop: "2px solid #8a8680", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
                   : <>
-                      <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#e63939", animation: "pulse 2s infinite" }} />
-                      <span style={{ fontSize: 12, color: "#e63939", fontWeight: 600, letterSpacing: 0.3 }}>live</span>
-                    </>
+                    <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#e63939", animation: "pulse 2s infinite" }} />
+                    <span style={{ fontSize: 12, color: "#e63939", fontWeight: 600, letterSpacing: 0.3 }}>live</span>
+                  </>
                 }
               </div>
             </div>
@@ -498,7 +510,7 @@ export default function App() {
             <div style={{ position: "relative", marginBottom: 12 }}>
               <span style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)", fontSize: 15, pointerEvents: "none" }}>🔍</span>
               <input
-              className="dark-input"
+                className="dark-input"
                 value={q}
                 onChange={e => setQ(e.target.value)}
                 placeholder="Search a bar or neighborhood..."
@@ -526,31 +538,31 @@ export default function App() {
             <div style={{ display: "flex", gap: 7, overflowX: "auto", paddingBottom: 10 }}>
               {NEIGHBORHOODS.map(n => (
                 <button key={n} onClick={() => setHood(n)}
-                className={hood === n ? "dark-pill-active" : "dark-pill"}
-                 style={{
-                  whiteSpace: "nowrap", padding: "7px 15px", borderRadius: 999,
-                  border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
-                  fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
-                  borderColor: hood === n ? "#1a1a1a" : "#ebe8e3",
-                  background: hood === n ? "#1a1a1a" : "#fff",
-                  color: hood === n ? "#fff" : "#8a8680",
-                }}>{n}</button>
+                  className={hood === n ? "dark-pill-active" : "dark-pill"}
+                  style={{
+                    whiteSpace: "nowrap", padding: "7px 15px", borderRadius: 999,
+                    border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
+                    fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
+                    borderColor: hood === n ? "#1a1a1a" : "#ebe8e3",
+                    background: hood === n ? "#1a1a1a" : "#fff",
+                    color: hood === n ? "#fff" : "#8a8680",
+                  }}>{n}</button>
               ))}
             </div>
 
             {/* Category pills */}
             <div style={{ display: "flex", gap: 7, paddingBottom: 14 }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCat(c)} 
-                className={cat === c ? "dark-pill-active" : "dark-pill"}
-                 style={{
-                  whiteSpace: "nowrap", padding: "6px 15px", borderRadius: 999,
-                  border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
-                  fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
-                  borderColor: cat === c ? "#e63939" : "#ebe8e3",
-                  background: cat === c ? "#fef2f2" : "#fff",
-                  color: cat === c ? "#e63939" : "#8a8680",
-                }}>{c}</button>
+                <button key={c} onClick={() => setCat(c)}
+                  className={cat === c ? "dark-pill-active" : "dark-pill"}
+                  style={{
+                    whiteSpace: "nowrap", padding: "6px 15px", borderRadius: 999,
+                    border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
+                    fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
+                    borderColor: cat === c ? "#e63939" : "#ebe8e3",
+                    background: cat === c ? "#fef2f2" : "#fff",
+                    color: cat === c ? "#e63939" : "#8a8680",
+                  }}>{c}</button>
               ))}
             </div>
           </div>
