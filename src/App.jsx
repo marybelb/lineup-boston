@@ -343,11 +343,14 @@ function VenueCard({ venue, onReport, index }) {
         </div>
       </div>
 
-      {/* Photo */}
+   {/* Photo */}
       {venue.latest_photo && (
         <>
-          <div onClick={() => setPhotoOpen(true)} style={{ marginTop: 10, borderRadius: 10, overflow: "hidden", cursor: "pointer" }}>
-            <img src={venue.latest_photo} style={{ width: "100%", height: 200, objectFit: "contain", background: "#f0ede9", borderRadius: 10 }} />
+          <div onClick={() => setPhotoOpen(true)} style={{ marginTop: 10, borderRadius: 10, overflow: "hidden", cursor: "pointer", height: 110, position: "relative" }}>
+            <img src={venue.latest_photo} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 10 }} />
+            <div style={{ position: "absolute", bottom: 6, right: 8, background: "rgba(0,0,0,0.5)", color: "#fff", fontSize: 10, fontWeight: 600, padding: "2px 8px", borderRadius: 6 }}>
+              tap to expand
+            </div>
           </div>
           {photoOpen && (
             <div onClick={() => setPhotoOpen(false)} style={{
