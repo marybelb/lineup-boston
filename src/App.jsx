@@ -323,139 +323,143 @@ function VenueCard({ venue, onReport, index }) {
 
               {photoOpen && (
                 <div onClick={() => setPhotoOpen(false)} style={{
-                  position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)",
+                  position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  zIndex: 300, padding: 20, cursor: "pointer"
+                  zIndex: 9999, cursor: "pointer"
                 }}>
-                  <img src={venue.latest_photo} style={{ maxWidth: "100%", maxHeight: "90vh", borderRadius: 12, objectFit: "contain" }} />
-                  <div style={{ position: "absolute", top: 20, right: 20, color: "#fff", fontSize: 28, fontWeight: 700 }}>✕</div>
+                  <div style={{ position: "relative", margin: 20, borderRadius: 16, overflow: "hidden", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
+                    <img src={venue.latest_photo} style={{ display: "block", maxWidth: "calc(100vw - 40px)", maxHeight: "80vh", borderRadius: 16, objectFit: "contain" }} />
+                    <button onClick={() => setPhotoOpen(false)} style={{
+                      position: "absolute", top: 10, right: 10,
+                      background: "rgba(0,0,0,0.6)", border: "none", borderRadius: "50%",
+                      width: 32, height: 32, color: "#fff", cursor: "pointer",
+                      fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center"
+                    }}>✕</button>
+                  </div>
                 </div>
               )}
-            </>
+
+              {/* Right */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+                <div style={{
+                  background: waitBg(w), color: waitColor(w),
+                  padding: "6px 14px", borderRadius: 10,
+                  fontSize: 14, fontWeight: 800, minWidth: 86, textAlign: "center"
+                }}>
+                  {waitText(w)}
+                </div>
+                <button
+                  onClick={() => onReport(venue)}
+                  style={{
+                    padding: "5px 12px", borderRadius: 8,
+                    border: "1.5px solid #ebe8e3", background: "#fff",
+                    color: "#8a8680", fontSize: 11, fontWeight: 600,
+                    cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+                    transition: "all 0.12s"
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "#faf9f7"; e.currentTarget.style.borderColor = "#dedad4"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.borderColor = "#ebe8e3"; }}
+                >
+                  + Report
+                </button>
+              </div>
+            </div>
+        </div>
+        );
+}
+
+        // ── Setup Banner ─────────────────────────────────────────────
+        function SetupBanner() {
+  const [open, setOpen] = useState(false);
+        return (
+        <div style={{ background: "#fffbeb", border: "1.5px solid #fde68a", borderRadius: 14, padding: "11px 16px", margin: "12px 0 4px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#92400e" }}>⚡ Demo mode — Supabase not connected</span>
+            <button onClick={() => setOpen(!open)} style={{ fontSize: 12, color: "#d97706", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>
+              {open ? "Hide" : "How to connect →"}
+            </button>
+          </div>
+          {open && (
+            <div style={{ marginTop: 10, fontSize: 12, color: "#78350f", lineHeight: 1.8 }}>
+              1. Create a free project at <b>supabase.com</b><br />
+              2. Run the SQL schema in the code comments<br />
+              3. Replace <b>SUPABASE_URL</b> + <b>SUPABASE_ANON_KEY</b> at the top of this file
+            </div>
           )}
         </div>
-
-        {/* Right */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
-          <div style={{
-            background: waitBg(w), color: waitColor(w),
-            padding: "6px 14px", borderRadius: 10,
-            fontSize: 14, fontWeight: 800, minWidth: 86, textAlign: "center"
-          }}>
-            {waitText(w)}
-          </div>
-          <button
-            onClick={() => onReport(venue)}
-            style={{
-              padding: "5px 12px", borderRadius: 8,
-              border: "1.5px solid #ebe8e3", background: "#fff",
-              color: "#8a8680", fontSize: 11, fontWeight: 600,
-              cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-              transition: "all 0.12s"
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = "#faf9f7"; e.currentTarget.style.borderColor = "#dedad4"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.borderColor = "#ebe8e3"; }}
-          >
-            + Report
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+        );
 }
 
-// ── Setup Banner ─────────────────────────────────────────────
-function SetupBanner() {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ background: "#fffbeb", border: "1.5px solid #fde68a", borderRadius: 14, padding: "11px 16px", margin: "12px 0 4px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color: "#92400e" }}>⚡ Demo mode — Supabase not connected</span>
-        <button onClick={() => setOpen(!open)} style={{ fontSize: 12, color: "#d97706", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>
-          {open ? "Hide" : "How to connect →"}
-        </button>
-      </div>
-      {open && (
-        <div style={{ marginTop: 10, fontSize: 12, color: "#78350f", lineHeight: 1.8 }}>
-          1. Create a free project at <b>supabase.com</b><br />
-          2. Run the SQL schema in the code comments<br />
-          3. Replace <b>SUPABASE_URL</b> + <b>SUPABASE_ANON_KEY</b> at the top of this file
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── Main App ─────────────────────────────────────────────────
-export default function App() {
+        // ── Main App ─────────────────────────────────────────────────
+        export default function App() {
   const [venues, setVenues] = useState(FALLBACK);
-  const [loading, setLoading] = useState(isConfigured);
-  const [hood, setHood] = useState("All");
-  const [cat, setCat] = useState("All");
-  const [q, setQ] = useState("");
-  const [reporting, setReporting] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [toast, setToast] = useState(null);
+        const [loading, setLoading] = useState(isConfigured);
+        const [hood, setHood] = useState("All");
+        const [cat, setCat] = useState("All");
+        const [q, setQ] = useState("");
+        const [reporting, setReporting] = useState(null);
+        const [submitting, setSubmitting] = useState(false);
+        const [toast, setToast] = useState(null);
 
-  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
+  const showToast = (msg) => {setToast(msg); setTimeout(() => setToast(null), 2500); };
 
   // Fetch from Supabase
   const fetchVenues = useCallback(async () => {
     if (!isConfigured) return;
-    try {
-      const data = await supabase.from("venue_wait_times").select("*", { order: "name.asc" });
+        try {
+      const data = await supabase.from("venue_wait_times").select("*", {order: "name.asc" });
       if (Array.isArray(data) && data.length > 0) setVenues(data);
-    } catch (e) { console.error(e); }
-    finally { setLoading(false); }
+    } catch (e) {console.error(e); }
+        finally {setLoading(false); }
   }, []);
 
-  useEffect(() => { fetchVenues(); }, [fetchVenues]);
+  useEffect(() => {fetchVenues(); }, [fetchVenues]);
 
   // Realtime
   useEffect(() => {
     if (!isConfigured) return;
-    const sub = supabase.channel().on("*", { table: "wait_reports" }, () => fetchVenues()).subscribe();
+        const sub = supabase.channel().on("*", {table: "wait_reports" }, () => fetchVenues()).subscribe();
     return () => sub.unsubscribe();
   }, [fetchVenues]);
 
   // Submit report
   const handleSubmit = async (venueId, waitMinutes, photoFile) => {
-    setSubmitting(true);
-    let photoUrl = null;
-    if (photoFile && isConfigured) {
-      photoUrl = await supabase.uploadPhoto(photoFile);
+          setSubmitting(true);
+        let photoUrl = null;
+        if (photoFile && isConfigured) {
+          photoUrl = await supabase.uploadPhoto(photoFile);
     }
-    if (isConfigured) {
+        if (isConfigured) {
       try {
-        await supabase.from("wait_reports").insert({ venue_id: venueId, wait_minutes: waitMinutes, photo_url: photoUrl });
+          await supabase.from("wait_reports").insert({ venue_id: venueId, wait_minutes: waitMinutes, photo_url: photoUrl });
         await fetchVenues();
-      } catch (e) { console.error(e); }
+      } catch (e) {console.error(e); }
     } else {
-      setVenues(prev => prev.map(v => v.id === venueId
-        ? { ...v, current_wait: waitMinutes, recent_reports: (v.recent_reports || 0) + 1, last_reported_at: new Date().toISOString() }
-        : v
-      ));
+          setVenues(prev => prev.map(v => v.id === venueId
+            ? { ...v, current_wait: waitMinutes, recent_reports: (v.recent_reports || 0) + 1, last_reported_at: new Date().toISOString() }
+            : v
+          ));
     }
-    setSubmitting(false);
-    setReporting(null);
-    showToast("Thanks! Wait time updated 🙌");
+        setSubmitting(false);
+        setReporting(null);
+        showToast("Thanks! Wait time updated 🙌");
   };
 
-  // Filter + sort
-  const filtered = venues
+        // Filter + sort
+        const filtered = venues
     .filter(v => !q || v.name.toLowerCase().includes(q.toLowerCase()) || v.neighborhood.toLowerCase().includes(q.toLowerCase()))
     .filter(v => hood === "All" || v.neighborhood === hood)
     .filter(v => cat === "All" || (cat === "Bars" ? v.type === "Bar" : v.type === "Dessert"))
     .sort((a, b) => {
       if (a.current_wait == null && b.current_wait == null) return 0;
-      if (a.current_wait == null) return 1;
-      if (b.current_wait == null) return -1;
-      return a.current_wait - b.current_wait;
+        if (a.current_wait == null) return 1;
+        if (b.current_wait == null) return -1;
+        return a.current_wait - b.current_wait;
     });
 
-  return (
-    <>
-      <style>{`
+        return (
+        <>
+          <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #faf9f7; margin: 0; min-height: 100vh; }
@@ -479,168 +483,168 @@ export default function App() {
       }
       `}</style>
 
-      <div style={{ minHeight: "100vh", background: "#faf9f7", fontFamily: "'DM Sans', sans-serif" }}>
+          <div style={{ minHeight: "100vh", background: "#faf9f7", fontFamily: "'DM Sans', sans-serif" }}>
 
-        {/* ── Sticky Header ── */}
-        <div className="dark-header" style={{
-          background: "#faf9f7", borderBottom: "1.5px solid #ebe8e3",
-          padding: "20px 22px 0", position: "sticky", top: 0, zIndex: 50,
-        }}>
-          <div style={{ maxWidth: 680, margin: "0 auto" }}>
+            {/* ── Sticky Header ── */}
+            <div className="dark-header" style={{
+              background: "#faf9f7", borderBottom: "1.5px solid #ebe8e3",
+              padding: "20px 22px 0", position: "sticky", top: 0, zIndex: 50,
+            }}>
+              <div style={{ maxWidth: 680, margin: "0 auto" }}>
 
-            {/* Logo row */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-              <div style={{ display: "flex", alignItems: "baseline" }}>
-                <span className="dark-logo" style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>Line</span>
-                <span style={{ fontSize: 30, fontWeight: 800, color: "#e63939", letterSpacing: -1 }}>UP</span>
-                <span className="dark-logo" style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>&nbsp;Boston</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                {loading
-                  ? <div style={{ width: 13, height: 13, border: "2px solid #dedad4", borderTop: "2px solid #8a8680", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-                  : <>
-                    <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#e63939", animation: "pulse 2s infinite" }} />
-                    <span style={{ fontSize: 12, color: "#e63939", fontWeight: 600, letterSpacing: 0.3 }}>live</span>
-                  </>
-                }
+                {/* Logo row */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                  <div style={{ display: "flex", alignItems: "baseline" }}>
+                    <span className="dark-logo" style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>Line</span>
+                    <span style={{ fontSize: 30, fontWeight: 800, color: "#e63939", letterSpacing: -1 }}>UP</span>
+                    <span className="dark-logo" style={{ fontSize: 30, fontWeight: 800, color: "#1a1a1a", letterSpacing: -1 }}>&nbsp;Boston</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    {loading
+                      ? <div style={{ width: 13, height: 13, border: "2px solid #dedad4", borderTop: "2px solid #8a8680", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
+                      : <>
+                        <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#e63939", animation: "pulse 2s infinite" }} />
+                        <span style={{ fontSize: 12, color: "#e63939", fontWeight: 600, letterSpacing: 0.3 }}>live</span>
+                      </>
+                    }
+                  </div>
+                </div>
+
+                {/* Search bar */}
+                <div style={{ position: "relative", marginBottom: 12 }}>
+                  <span style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)", fontSize: 15, pointerEvents: "none" }}>🔍</span>
+                  <input
+                    className="dark-input"
+                    value={q}
+                    onChange={e => setQ(e.target.value)}
+                    placeholder="Search a bar or neighborhood..."
+                    style={{
+                      width: "100%", padding: "11px 36px 11px 38px",
+                      border: "1.5px solid #ebe8e3", borderRadius: 14,
+                      fontSize: 14, fontFamily: "'DM Sans', sans-serif",
+                      background: "#fff", color: "#1a1a1a",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.04)", transition: "border-color 0.15s"
+                    }}
+                    onFocus={e => e.target.style.borderColor = "#c4bfb8"}
+                    onBlur={e => e.target.style.borderColor = "#ebe8e3"}
+                  />
+                  {q && (
+                    <button onClick={() => setQ("")} style={{
+                      position: "absolute", right: 11, top: "50%", transform: "translateY(-50%)",
+                      background: "#dedad4", border: "none", borderRadius: "50%",
+                      width: 20, height: 20, cursor: "pointer", fontSize: 10, color: "#8a8680",
+                      display: "flex", alignItems: "center", justifyContent: "center"
+                    }}>✕</button>
+                  )}
+                </div>
+
+                {/* Neighborhood pills */}
+                <div style={{ display: "flex", gap: 7, overflowX: "auto", paddingBottom: 10 }}>
+                  {NEIGHBORHOODS.map(n => (
+                    <button key={n} onClick={() => setHood(n)}
+                      className={hood === n ? "dark-pill-active" : "dark-pill"}
+                      style={{
+                        whiteSpace: "nowrap", padding: "7px 15px", borderRadius: 999,
+                        border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
+                        fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
+                        borderColor: hood === n ? "#1a1a1a" : "#ebe8e3",
+                        background: hood === n ? "#1a1a1a" : "#fff",
+                        color: hood === n ? "#fff" : "#8a8680",
+                      }}>{n}</button>
+                  ))}
+                </div>
+
+                {/* Category pills */}
+                <div style={{ display: "flex", gap: 7, paddingBottom: 14 }}>
+                  {CATEGORIES.map(c => (
+                    <button key={c} onClick={() => setCat(c)}
+                      className={cat === c ? "dark-pill-active" : "dark-pill"}
+                      style={{
+                        whiteSpace: "nowrap", padding: "6px 15px", borderRadius: 999,
+                        border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
+                        fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
+                        borderColor: cat === c ? "#e63939" : "#ebe8e3",
+                        background: cat === c ? "#fef2f2" : "#fff",
+                        color: cat === c ? "#e63939" : "#8a8680",
+                      }}>{c}</button>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Search bar */}
-            <div style={{ position: "relative", marginBottom: 12 }}>
-              <span style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)", fontSize: 15, pointerEvents: "none" }}>🔍</span>
-              <input
-                className="dark-input"
-                value={q}
-                onChange={e => setQ(e.target.value)}
-                placeholder="Search a bar or neighborhood..."
-                style={{
-                  width: "100%", padding: "11px 36px 11px 38px",
-                  border: "1.5px solid #ebe8e3", borderRadius: 14,
-                  fontSize: 14, fontFamily: "'DM Sans', sans-serif",
-                  background: "#fff", color: "#1a1a1a",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.04)", transition: "border-color 0.15s"
-                }}
-                onFocus={e => e.target.style.borderColor = "#c4bfb8"}
-                onBlur={e => e.target.style.borderColor = "#ebe8e3"}
-              />
-              {q && (
-                <button onClick={() => setQ("")} style={{
-                  position: "absolute", right: 11, top: "50%", transform: "translateY(-50%)",
-                  background: "#dedad4", border: "none", borderRadius: "50%",
-                  width: 20, height: 20, cursor: "pointer", fontSize: 10, color: "#8a8680",
-                  display: "flex", alignItems: "center", justifyContent: "center"
-                }}>✕</button>
+            {/* ── Body ── */}
+            <div style={{ maxWidth: 680, margin: "0 auto", padding: "12px 22px 100px" }}>
+
+              {/* Setup banner */}
+              {!isConfigured && <SetupBanner />}
+
+              {/* Results count */}
+              {!loading && (
+                <div style={{ fontSize: 12, color: "#c4bfb8", fontWeight: 600, letterSpacing: 0.3, textTransform: "uppercase", margin: "10px 0 12px" }}>
+                  {filtered.length} spot{filtered.length !== 1 ? "s" : ""}
+                  {q && <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0 }}> for "{q}"</span>}
+                </div>
               )}
-            </div>
 
-            {/* Neighborhood pills */}
-            <div style={{ display: "flex", gap: 7, overflowX: "auto", paddingBottom: 10 }}>
-              {NEIGHBORHOODS.map(n => (
-                <button key={n} onClick={() => setHood(n)}
-                  className={hood === n ? "dark-pill-active" : "dark-pill"}
-                  style={{
-                    whiteSpace: "nowrap", padding: "7px 15px", borderRadius: 999,
-                    border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
-                    fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
-                    borderColor: hood === n ? "#1a1a1a" : "#ebe8e3",
-                    background: hood === n ? "#1a1a1a" : "#fff",
-                    color: hood === n ? "#fff" : "#8a8680",
-                  }}>{n}</button>
+              {/* Loading */}
+              {loading && (
+                <div style={{ textAlign: "center", padding: "60px 0", color: "#c4bfb8", fontSize: 14 }}>Loading...</div>
+              )}
+
+              {/* Empty */}
+              {!loading && filtered.length === 0 && (
+                <div style={{ textAlign: "center", padding: "60px 0", color: "#c4bfb8", fontSize: 14 }}>No spots found</div>
+              )}
+
+              {/* Venue cards */}
+              {!loading && filtered.map((v, i) => (
+                <VenueCard key={v.id} venue={v} onReport={setReporting} index={i} />
               ))}
             </div>
 
-            {/* Category pills */}
-            <div style={{ display: "flex", gap: 7, paddingBottom: 14 }}>
-              {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCat(c)}
-                  className={cat === c ? "dark-pill-active" : "dark-pill"}
-                  style={{
-                    whiteSpace: "nowrap", padding: "6px 15px", borderRadius: 999,
-                    border: "1.5px solid", fontSize: 12, fontWeight: 600, cursor: "pointer",
-                    fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s",
-                    borderColor: cat === c ? "#e63939" : "#ebe8e3",
-                    background: cat === c ? "#fef2f2" : "#fff",
-                    color: cat === c ? "#e63939" : "#8a8680",
-                  }}>{c}</button>
-              ))}
+            {/* ── FAB ── */}
+            <div style={{ position: "fixed", bottom: 26, left: "50%", transform: "translateX(-50%)", zIndex: 40 }}>
+              <button
+                onClick={() => alert("GPS auto-detect coming soon!")}
+                style={{
+                  padding: "13px 30px", borderRadius: 999,
+                  background: "#1a1a1a", border: "none",
+                  color: "#fff", fontSize: 13, fontWeight: 700,
+                  cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.2)", whiteSpace: "nowrap",
+                  transition: "transform 0.15s"
+                }}
+                onMouseEnter={e => e.currentTarget.style.transform = "scale(1.03)"}
+                onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+              >
+                📍 I'm in line
+              </button>
             </div>
+
+            {/* ── Report Modal ── */}
+            {reporting && (
+              <ReportModal
+                venue={reporting}
+                onClose={() => setReporting(null)}
+                onSubmit={handleSubmit}
+                submitting={submitting}
+              />
+            )}
+
+            {/* ── Toast ── */}
+            {toast && (
+              <div style={{
+                position: "fixed", bottom: 86, left: "50%",
+                transform: "translateX(-50%)",
+                background: "#1a1a1a", color: "#fff",
+                padding: "10px 20px", borderRadius: 12,
+                fontSize: 13, fontWeight: 600,
+                animation: "toastIn 0.2s ease",
+                whiteSpace: "nowrap",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.15)"
+              }}>{toast}</div>
+            )}
           </div>
-        </div>
-
-        {/* ── Body ── */}
-        <div style={{ maxWidth: 680, margin: "0 auto", padding: "12px 22px 100px" }}>
-
-          {/* Setup banner */}
-          {!isConfigured && <SetupBanner />}
-
-          {/* Results count */}
-          {!loading && (
-            <div style={{ fontSize: 12, color: "#c4bfb8", fontWeight: 600, letterSpacing: 0.3, textTransform: "uppercase", margin: "10px 0 12px" }}>
-              {filtered.length} spot{filtered.length !== 1 ? "s" : ""}
-              {q && <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0 }}> for "{q}"</span>}
-            </div>
-          )}
-
-          {/* Loading */}
-          {loading && (
-            <div style={{ textAlign: "center", padding: "60px 0", color: "#c4bfb8", fontSize: 14 }}>Loading...</div>
-          )}
-
-          {/* Empty */}
-          {!loading && filtered.length === 0 && (
-            <div style={{ textAlign: "center", padding: "60px 0", color: "#c4bfb8", fontSize: 14 }}>No spots found</div>
-          )}
-
-          {/* Venue cards */}
-          {!loading && filtered.map((v, i) => (
-            <VenueCard key={v.id} venue={v} onReport={setReporting} index={i} />
-          ))}
-        </div>
-
-        {/* ── FAB ── */}
-        <div style={{ position: "fixed", bottom: 26, left: "50%", transform: "translateX(-50%)", zIndex: 40 }}>
-          <button
-            onClick={() => alert("GPS auto-detect coming soon!")}
-            style={{
-              padding: "13px 30px", borderRadius: 999,
-              background: "#1a1a1a", border: "none",
-              color: "#fff", fontSize: 13, fontWeight: 700,
-              cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.2)", whiteSpace: "nowrap",
-              transition: "transform 0.15s"
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = "scale(1.03)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-          >
-            📍 I'm in line
-          </button>
-        </div>
-
-        {/* ── Report Modal ── */}
-        {reporting && (
-          <ReportModal
-            venue={reporting}
-            onClose={() => setReporting(null)}
-            onSubmit={handleSubmit}
-            submitting={submitting}
-          />
-        )}
-
-        {/* ── Toast ── */}
-        {toast && (
-          <div style={{
-            position: "fixed", bottom: 86, left: "50%",
-            transform: "translateX(-50%)",
-            background: "#1a1a1a", color: "#fff",
-            padding: "10px 20px", borderRadius: 12,
-            fontSize: 13, fontWeight: 600,
-            animation: "toastIn 0.2s ease",
-            whiteSpace: "nowrap",
-            boxShadow: "0 4px 16px rgba(0,0,0,0.15)"
-          }}>{toast}</div>
-        )}
-      </div>
-    </>
-  );
+        </>
+        );
 }
