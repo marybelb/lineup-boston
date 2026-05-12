@@ -102,6 +102,24 @@ const supabase = (() => {
       return res.json();
     },
   });
+   const uploadPhoto = async (file) => {
+    const ext = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const res = await fetch(
+      `${SUPABASE_URL}/storage/v1/object/line-photos/${fileName}`,
+      {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": file.type,
+        },
+        body: file,
+      }
+    );
+    if (!res.ok) return null;
+    return `${SUPABASE_URL}/storage/v1/object/public/line-photos/${fileName}`;
+  };
   const channel = () => ({
     on: (_e, _f, cb) => ({
       subscribe: () => {
@@ -124,7 +142,7 @@ const supabase = (() => {
       }
     })
   });
-  return { from, channel };
+  return { from, channel, uploadPhoto };
 })();
 
 // Fallback demo data
@@ -168,6 +186,15 @@ const CATEGORIES    = ["All", "Bars", "Dessert"];
 // ── Report Modal ─────────────────────────────────────────────
 function ReportModal({ venue, onClose, onSubmit, submitting }) {
   const [selected, setSelected] = useState(null);
+  const [photo, setPhoto] = useState(null);
+const [photoPreview, setPhotoPreview] = useState(null);
+
+const handlePhoto = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  setPhoto(file);
+  setPhotoPreview(URL.createObjectURL(file));
+};
   const opts = [
   { label: "No wait", value: 0 },
   { label: "~5 min",  value: 5 },
@@ -217,8 +244,28 @@ function ReportModal({ venue, onClose, onSubmit, submitting }) {
             }}>{o.label}</button>
           ))}
         </div>
+         {/* Photo upload */}
+        <div style={{ marginBottom: 14 }}>
+          {photoPreview ? (
+            <div style={{ position: "relative" }}>
+              <img src={photoPreview} style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 12 }} />
+              <button onClick={() => { setPhoto(null); setPhotoPreview(null); }}
+                style={{ position: "absolute", top: 8, right: 8, background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "50%", width: 28, height: 28, color: "#fff", cursor: "pointer", fontSize: 14 }}>✕</button>
+            </div>
+          ) : (
+            <label style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              padding: "12px", borderRadius: 12, border: "1.5px dashed #dedad4",
+              background: "#fff", cursor: "pointer", fontSize: 13, color: "#8a8680", fontWeight: 600
+            }}>
+              📷 Add a photo of the line (optional)
+              <input type="file" accept="image/*" capture="environment" onChange={handlePhoto} style={{ display: "none" }} />
+            </label>
+          )}
+        </div>
+
         <button
-          onClick={() => selected !== null && !submitting && onSubmit(venue.id, selected)}
+          onClick={() => selected !== null && !submitting && onSubmit(venue.id, selected, photo)}
           style={{
             width: "100%", padding: "16px", borderRadius: 16, border: "none",
             background: selected !== null ? "#1a1a1a" : "#ebe8e3",
@@ -267,6 +314,11 @@ function VenueCard({ venue, onReport, index }) {
               : <span>No recent reports</span>
             }
           </div>
+          {venue.latest_photo && (
+            <div style={{ marginTop: 10, borderRadius: 10, overflow: "hidden" }}>
+              <img src={venue.latest_photo} style={{ width: "100%", height: 120, objectFit: "cover" }} />
+            </div>
+          )}
         </div>
 
         {/* Right */}
@@ -353,23 +405,27 @@ export default function App() {
   }, [fetchVenues]);
 
   // Submit report
-  const handleSubmit = async (venueId, waitMinutes) => {
-    setSubmitting(true);
-    if (isConfigured) {
-      try {
-        await supabase.from("wait_reports").insert({ venue_id: venueId, wait_minutes: waitMinutes });
-        await fetchVenues();
-      } catch (e) { console.error(e); }
-    } else {
-      setVenues(prev => prev.map(v => v.id === venueId
-        ? { ...v, current_wait: waitMinutes, recent_reports: (v.recent_reports || 0) + 1, last_reported_at: new Date().toISOString() }
-        : v
-      ));
-    }
-    setSubmitting(false);
-    setReporting(null);
-    showToast("Thanks! Wait time updated 🙌");
-  };
+  const handleSubmit = async (venueId, waitMinutes, photoFile) => {
+  setSubmitting(true);
+  let photoUrl = null;
+  if (photoFile && isConfigured) {
+    photoUrl = await supabase.uploadPhoto(photoFile);
+  }
+  if (isConfigured) {
+    try {
+      await supabase.from("wait_reports").insert({ venue_id: venueId, wait_minutes: waitMinutes, photo_url: photoUrl });
+      await fetchVenues();
+    } catch (e) { console.error(e); }
+  } else {
+    setVenues(prev => prev.map(v => v.id === venueId
+      ? { ...v, current_wait: waitMinutes, recent_reports: (v.recent_reports || 0) + 1, last_reported_at: new Date().toISOString() }
+      : v
+    ));
+  }
+  setSubmitting(false);
+  setReporting(null);
+  showToast("Thanks! Wait time updated 🙌");
+};
 
   // Filter + sort
   const filtered = venues
